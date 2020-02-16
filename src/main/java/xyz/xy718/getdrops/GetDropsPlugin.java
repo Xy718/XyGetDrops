@@ -6,7 +6,6 @@ import java.nio.file.Path;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
@@ -17,16 +16,10 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.plugin.PluginManager;
-import org.spongepowered.api.scheduler.Task;
-import org.spongepowered.api.world.ChunkTicketManager;
 
 import com.google.inject.Inject;
 
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import xyz.xy718.getdrops.command.GetDropsCommandRegister;
 import xyz.xy718.getdrops.config.GetDropsConfig;
@@ -81,8 +74,6 @@ public class GetDropsPlugin {
     	Sponge.getEventManager().registerListeners(this,new AllDropEvent());
     	Sponge.getEventManager().registerListeners(this,new AllPickupEvent());
     	Sponge.getEventManager().registerListeners(this,new ChunkEvent());
-        //ticketManager = Sponge.getServiceManager().provide(ChunkTicketManager.class).get();
-        //ticketManager.registerCallback(this, new ChunkLoadingCallback(this));
 	}
     @Listener
     public void onServerStart(GameStartedServerEvent event) {

@@ -1,12 +1,6 @@
 package xyz.xy718.getdrops.command.excutor;
 
-import java.util.UUID;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-
 import org.slf4j.Logger;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -14,12 +8,8 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.source.CommandBlockSource;
 import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.Item;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.ChunkTicketManager;
-import org.spongepowered.api.world.ChunkTicketManager.LoadingTicket;
 
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.data.model.TrackData;
@@ -50,16 +40,10 @@ public class PickmeCommandExcutor implements CommandExecutor {
 						.getChunk(data.getDropItem().getLocation().getChunkPosition())	//的该区块
 						.isPresent()) {													//!不存在
 					//未加载区块
-					/*
-					ChunkTicketManager ctm= GetDropsPlugin.getTicketManager();
-					Optional<LoadingTicket> ticket=ctm.createTicket(GetDropsPlugin.get(), data.getDropItem().getWorld());
-					ticket.get().forceChunk(data.getDropItem().getLocation().getChunkPosition());
-					*/
 					data.getDropItem().getWorld().loadChunk(data.getDropItem().getLocation().getChunkPosition(), false);
 				}else {
 					//已加载区块
 					ItemUtil.singlePickupAction(data.getDropItem(), data.getPlayerUUID());
-					
 				}
 			}
 		}else if(src instanceof ConsoleSource) {
