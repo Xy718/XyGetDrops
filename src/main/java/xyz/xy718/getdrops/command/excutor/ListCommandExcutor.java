@@ -16,6 +16,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 
+import xyz.xy718.getdrops.I18N;
 import xyz.xy718.getdrops.data.model.TrackData;
 import xyz.xy718.getdrops.event.AllDropEvent;
 import xyz.xy718.getdrops.util.ItemUtil;
@@ -34,7 +35,8 @@ public class ListCommandExcutor implements CommandExecutor{
 		    if(i>=32) {
 		    	warnColor="&6";
 		    }
-		    MessageText.LIST_TRACKING_COUNT.setColorAndCount(warnColor, i).send(player);;
+		    player.sendMessage(I18N.getText("list.sample", new String[] {warnColor,i+""}));
+		    //MessageText.LIST_TRACKING_COUNT.setColorAndCount(warnColor, i).send(player);;
 		}
 		else if(src instanceof ConsoleSource) {
 		    src.sendMessage(Text.of("控制台就别用这个指令了吧"));

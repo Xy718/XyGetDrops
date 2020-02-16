@@ -50,7 +50,6 @@ public class AllDropEvent {
     		return;
     	}
     	
-    	
     	if(event.getSource() instanceof BlockSnapshot) {
     		//挖掘破坏行为
     		
