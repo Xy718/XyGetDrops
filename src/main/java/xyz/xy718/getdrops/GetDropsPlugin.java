@@ -68,7 +68,8 @@ public class GetDropsPlugin {
             try {
                 Files.createDirectories(getdropsConfigPath);
             } catch (IOException e) {
-                LOGGER.error("Failed to create main config directory: {}", e);
+                LOGGER.error("Failed to create main config directory: {}",getdropsConfigPath);
+                LOGGER.error(e.toString());
             }
         }
     	mainConfig=new GetDropsConfig(instance,getdropsConfigPath);

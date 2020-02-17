@@ -9,6 +9,8 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.source.CommandBlockSource;
 import org.spongepowered.api.command.source.ConsoleSource;
+import org.spongepowered.api.command.source.ProxySource;
+import org.spongepowered.api.command.source.RemoteSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
@@ -35,7 +37,7 @@ public class ListCommandExcutor implements CommandExecutor{
 		    if(i>=32) {
 		    	warnColor="&6";
 		    }
-		    player.sendMessage(I18N.getText("list.sample", new String[] {warnColor,i+""}));
+		    player.sendMessage(I18N.getText("list.sample", new Object[] {warnColor,i}));
 		    //MessageText.LIST_TRACKING_COUNT.setColorAndCount(warnColor, i).send(player);;
 		}
 		else if(src instanceof ConsoleSource) {
@@ -43,6 +45,11 @@ public class ListCommandExcutor implements CommandExecutor{
 		}
 		else if(src instanceof CommandBlockSource) {
 		    src.sendMessage(Text.of("命令方块用不了哦"));
+		}else if(src instanceof ProxySource) {
+		    src.sendMessage(Text.of("~"));
+		}
+		else if(src instanceof RemoteSource) {
+		    src.sendMessage(Text.of("~"));
 		}
 		return CommandResult.success();
 	}

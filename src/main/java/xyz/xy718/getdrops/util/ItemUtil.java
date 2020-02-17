@@ -55,7 +55,6 @@ public class ItemUtil {
 			Map<UUID, TrackData> temp=new HashMap<>(0);
 			playerDropsMap.put(data.getPlayerUUID(),temp);
 		}
-		data.getDropItem().setCreator(data.getPlayerUUID());
 		playerDropsMap.get(data.getPlayerUUID()).put(data.getLivingId(), data);
 		onTrackingItem.put(data.getLivingId(), data.getPlayerUUID());
 	}
@@ -203,7 +202,6 @@ public class ItemUtil {
 				ItemUtil.setUnTracking(playerUUID);
 			}
 			
-			
 			//删除物品
 			ItemUtil.destructDropItem(entity.getUniqueId());
 		}else {
@@ -238,4 +236,7 @@ public class ItemUtil {
         }
         return  obj;
     }
+	public static Entity getItemEntity(TrackData data) {
+		return Sponge.getServer().getWorld(data.getWorldUUID()).get().getEntity(data.getLivingId()).get();
+	}
 }

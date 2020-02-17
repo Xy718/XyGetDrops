@@ -1,6 +1,7 @@
 package xyz.xy718.getdrops.command.excutor;
 
 import org.slf4j.Logger;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -8,6 +9,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.source.CommandBlockSource;
 import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -35,15 +37,18 @@ public class PickmeCommandExcutor implements CommandExecutor {
 			while (!ItemUtil.getPlayerDropsMap(player).isEmpty()) {
 				TrackData data =ItemUtil.getFirstOrNullOnPlayerDrops(player.getUniqueId());
 				//加载需要加载的区块（如果没有加载）
-				if(!data.getDropItem()
-						.getWorld()														//该世界
-						.getChunk(data.getDropItem().getLocation().getChunkPosition())	//的该区块
-						.isPresent()) {													//!不存在
+				
+				if(!Sponge.getServer()
+						.getWorld(data.getWorldUUID()).get()
+						.getChunk(data.getChunkPosition())
+						.isPresent()) {
 					//未加载区块
-					data.getDropItem().getWorld().loadChunk(data.getDropItem().getLocation().getChunkPosition(), false);
+					Sponge.getServer().getWorld(data.getWorldUUID()).get()
+						.loadChunk(data.getChunkPosition(), false);
 				}else {
 					//已加载区块
-					ItemUtil.singlePickupAction(data.getDropItem(), data.getPlayerUUID());
+					Entity entity=ItemUtil.getItemEntity(data);
+					ItemUtil.singlePickupAction(entity, data.getPlayerUUID());
 				}
 			}
 		}else if(src instanceof ConsoleSource) {

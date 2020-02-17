@@ -67,6 +67,9 @@ public class AllDropEvent {
 					break;
 				}
 			}
+			if(e==null) {
+				return;
+			}
 			if(!config.getIsKillTracking(e.getType().getId())) {
 				return;
 			}

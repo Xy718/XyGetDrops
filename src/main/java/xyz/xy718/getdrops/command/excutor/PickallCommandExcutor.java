@@ -96,7 +96,7 @@ public class PickallCommandExcutor implements CommandExecutor {
 				}
 				//取消追踪
 				for(TrackData t:trackedList) {
-					ItemUtil.untracking(t.getDropItem());
+					ItemUtil.untracking(ItemUtil.getItemEntity(t));
 				}
 				
 				Text count=Text.of("]件");
