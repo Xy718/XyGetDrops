@@ -13,4 +13,8 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 public class MessageUtil {
 
+	
+	public static void send(UUID pUUID,Text text) {
+		Sponge.getServer().getPlayer(pUUID).get().sendMessage(text);
+	}
 }

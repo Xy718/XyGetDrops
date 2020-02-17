@@ -27,6 +27,7 @@ import org.spongepowered.api.world.World;
 import lombok.Data;
 import lombok.Getter;
 import xyz.xy718.getdrops.GetDropsPlugin;
+import xyz.xy718.getdrops.I18N;
 import xyz.xy718.getdrops.data.model.TrackData;
 
 /**
@@ -193,9 +194,9 @@ public class ItemUtil {
 			//删除玩家列表的记录
 			ItemUtil.getPlayerDropsMap(playerUUID).remove(entity.getUniqueId());
 			
-			MessageText.SUCCESS_PICK_ITEM_COUNT
-				.setItemAndCount(entity.get(Keys.REPRESENTED_ITEM).get().getType().getId(),entity.get(Keys.REPRESENTED_ITEM).get().getQuantity())
-				.send(playerUUID);
+			MessageUtil.send(
+					playerUUID
+					, I18N.getText("pick.success.item", new Object[] {entity.get(Keys.REPRESENTED_ITEM).get().getType().getId(),entity.get(Keys.REPRESENTED_ITEM).get().getQuantity()}));
 			
 			//如果玩家的待拾取列表清空了就UuChunkTracking
 			if(ItemUtil.getPlayerDropsMap(playerUUID).isEmpty()){
@@ -210,13 +211,13 @@ public class ItemUtil {
 			
 			switch (iResult.getType()) {
 			case FAILURE:
-				MessageText.FULL_INVENTORY_PLAYER.send(playerUUID);
+				MessageUtil.send(playerUUID, I18N.getText("pick.fail.cause.full"));
 				break;
 			case CANCELLED:
-				MessageText.ACTION_CANCEL.send(playerUUID);
+				MessageUtil.send(playerUUID, I18N.getText("pick.fail.cause.cancel"));
 				break;
 			default:
-				MessageText.UNKOWN.send(playerUUID);
+				MessageUtil.send(playerUUID, I18N.getText("pick.fail.cause.unkown"));
 				break;
 			}
 		}
