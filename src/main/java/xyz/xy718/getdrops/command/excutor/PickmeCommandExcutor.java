@@ -14,9 +14,11 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import xyz.xy718.getdrops.GetDropsPlugin;
+import xyz.xy718.getdrops.I18N;
 import xyz.xy718.getdrops.data.model.TrackData;
 import xyz.xy718.getdrops.util.ItemUtil;
 import xyz.xy718.getdrops.util.MessageText;
+import xyz.xy718.getdrops.util.MessageUtil;
 
 public class PickmeCommandExcutor implements CommandExecutor {
 
@@ -28,7 +30,7 @@ public class PickmeCommandExcutor implements CommandExecutor {
 		    Player player = (Player) src;
 		    if(ItemUtil.getPlayerDropsMap(player).isEmpty()) {
 		    	//没有物品
-		    	MessageText.DONT_NEED_ANYPICKUP.send(player);
+		    	player.sendMessage(I18N.getText("list.empty"));
 		    	return CommandResult.success();
 		    }
 			//开始pick物品,如果是已加载区块，就直接操作，

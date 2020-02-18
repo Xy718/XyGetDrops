@@ -12,7 +12,6 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 public enum MessageText {
-	FULL_INVENTORY_PLAYER("&c您的背包已满"),
 	SUCCESS_FIND_ITEM("您已成功寻回物品"),
 	SUCCESS_PICK_ITEM_COUNT("成功捡起{0}*{1}"),
 	FAIL_PICK_COUNT("失败[{}]件"),

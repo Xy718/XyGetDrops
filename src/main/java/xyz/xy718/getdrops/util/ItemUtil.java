@@ -1,12 +1,14 @@
 package xyz.xy718.getdrops.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.UUID;
 
@@ -239,5 +241,17 @@ public class ItemUtil {
     }
 	public static Entity getItemEntity(TrackData data) {
 		return Sponge.getServer().getWorld(data.getWorldUUID()).get().getEntity(data.getLivingId()).get();
+	}
+	
+	public static Set<UUID> getTrackingItemsByWorld(UUID worldUUID) {
+		Set<UUID> retList=new HashSet<>();
+		for(Entry<UUID, Map<UUID, TrackData>> entry:playerDropsMap.entrySet()) {
+			for(Entry<UUID, TrackData> entry2:entry.getValue().entrySet()) {
+				if(entry2.getValue().getWorldUUID().equals(worldUUID)) {
+					retList.add(entry2.getValue().getLivingId());
+				}
+			}
+		}
+		return retList;
 	}
 }

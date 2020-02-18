@@ -34,6 +34,7 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.World;
 
 import xyz.xy718.getdrops.GetDropsPlugin;
+import xyz.xy718.getdrops.I18N;
 import xyz.xy718.getdrops.data.model.TrackData;
 import xyz.xy718.getdrops.util.ItemUtil;
 import xyz.xy718.getdrops.util.MessageUtil;
@@ -46,70 +47,15 @@ public class PickallCommandExcutor implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext args) 
 			throws CommandException {
 		if (src instanceof Player) {
-		    List<World> ws=new ArrayList<>(Sponge.getServer().getWorlds());
-
-			//这里是因为要记录被track完的物品
-			List<TrackData> trackedList=new ArrayList<>();
-		    for(World w:ws) {
+		    for(World w:Sponge.getServer().getWorlds()) {
 	    		List<Entity> is= ItemUtil.getAllDropItems(w);
 	    		if(is.size()<=0) {
-	    			Text ret=Text.of("世界："+w.getName()+"没有任何掉落物");
-	    			src.sendMessage(ret);
+	    			src.sendMessage(I18N.getText("list.empty.world", w.getName()));
 	    			continue;
 	    		}
-	    		//这里是未成功的原因
-				String failCause=null;
-				int trackedCount=0;
-		    	for (Entity entity:is) {
-		    		if(!(entity instanceof Item)) {
-		    			LOGGER.info("666");
-		    		}
-		    		ItemStack item = entity.get(Keys.REPRESENTED_ITEM).get().createStack();
-
-					Inventory inv = ((PlayerInventory) ((Player) src).getInventory()).getMain();
-    				InventoryTransactionResult iResult= inv.offer(item);
-    				if(iResult.getType().equals(InventoryTransactionResult.Type.SUCCESS)) {
-						trackedCount++;
-    					if(entity.getCreator().orElse(null) != null) {
-    						//将待删除记录加上
-    						trackedList.add(new TrackData(entity, entity.getUniqueId(), (entity.getCreator().get())));
-    					}
-    					ItemUtil.destructDropItem(entity);
-    				}else {
-    					switch (iResult.getType()) {
-    					case FAILURE:
-    						failCause="你的背包满了？";
-    						break;
-    					case CANCELLED:
-    						failCause="放入背包的动作被取消了~";
-    						break;
-    					case UNDEFINED:
-    						failCause="我也不知道发送了啥~";
-    						break;
-    					default:
-    						failCause="我也不知道发送了啥";
-    						break;
-    					}
-    					//有一次失败就break
-    					break;
-    				}
-				}
-				//取消追踪
-				for(TrackData t:trackedList) {
-					ItemUtil.untracking(ItemUtil.getItemEntity(t));
-				}
-				
-				Text count=Text.of("]件");
-				Text t1=Text.of(w.getName()+"您已成功捡起物品");
-				Text t2=Text.builder("成功[").append(Text.builder(trackedCount+"").color(TextColors.GREEN).build()).append(count).build();
-				Text t3=Text.builder("失败[").append(Text.builder(ItemUtil.getAllDropItems(w).size()+"").color(TextColors.RED).build()).append(count).build();
-				src.sendMessage(t1);
-				src.sendMessage(t2);
-				src.sendMessage(t3);
-				if(failCause!=null) {
-					Text failCauseT=Text.builder("失败原因:").append(Text.builder(failCause).color(TextColors.RED).build()).build();
-					src.sendMessage(failCauseT);
-				}
+	    		//合并该世界的 被玩家掉落的物品和自然掉落的物品（鸡下的蛋，被水冲走的铁轨）
+	    		Collection<Entity> items=w.getEntities();
+	    		
 		    }
 		}
 		else if(src instanceof ConsoleSource) {
