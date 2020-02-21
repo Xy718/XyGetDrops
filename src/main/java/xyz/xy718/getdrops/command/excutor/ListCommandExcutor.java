@@ -37,8 +37,7 @@ public class ListCommandExcutor implements CommandExecutor{
 		    if(i>=32) {
 		    	warnColor="&6";
 		    }
-		    player.sendMessage(I18N.getText("list.sample", new Object[] {warnColor,i}));
-		    //MessageText.LIST_TRACKING_COUNT.setColorAndCount(warnColor, i).send(player);;
+		    player.sendMessage(I18N.getText("list.sample", warnColor,i));
 		}
 		else if(src instanceof ConsoleSource) {
 		    src.sendMessage(Text.of("控制台就别用这个指令了吧"));

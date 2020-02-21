@@ -14,12 +14,12 @@ import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.util.ItemUtil;
 import xyz.xy718.getdrops.util.MessageUtil;
 
-public class AllPickupEvent {
+public class AllItemDestructEvent {
 
     private Logger LOGGER = GetDropsPlugin.LOGGER;
     
     /**
-     * 这个部分是用来监听所有物品被捡起的事件的
+     * 这个部分是用来监听所有物品被捡起的事件的,或被销毁
      * @param event
      */
     @Listener
@@ -27,15 +27,16 @@ public class AllPickupEvent {
     		DestructEntityEvent event
     		) { 
     	//LOGGER.debug("onItemPickup:"+event);
-    	//如果有Creator且是物品
-    	if(event.getTargetEntity().getCreator().orElse(null)!=null
-    			&&event.getTargetEntity().getType().equals(EntityTypes.ITEM)) {
+    	//TODO 是否启用了掉落物守护模式
+    	
+    	//TODO 该掉落物的保护时间是否已过期
+    	
+    	//TODO 是否在保护名单中
+    	
+    	
+    	if(event.getTargetEntity().getType().equals(EntityTypes.ITEM)) {
     		ItemUtil.untracking(event.getTargetEntity());
-    		/*
-    		MessageUtil.simpleSendToPlayer(
-    	    		Sponge.getServer().getPlayer(event.getTargetEntity().getCreator().get()).get()
-    	    		, Text.of("您的物品："+event.getTargetEntity()+"被"+event.getSource()+"捡走"));
-    	    		*/
+
     	}
     }
     

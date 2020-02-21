@@ -43,8 +43,8 @@ public class GetDropsCommandRegister {
 			    .permission("getdrops.info.base")
 			    .child(getdropsList, "list","l")
 			    .child(getdropsPickme, "pick","p")
-			    .child(getdropsPickall, "pickall","pa")
-			    .child(getdropsListall, "listall","la")
+			    //.child(getdropsPickall, "pickall","pa")
+			    //.child(getdropsListall, "listall","la")
 			    .build();
 		Sponge.getCommandManager().register(plugin, getdrops, "getdrops", "gdrops");
 	}

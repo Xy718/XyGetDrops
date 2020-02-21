@@ -54,7 +54,7 @@ public class PickallCommandExcutor implements CommandExecutor {
 	    			continue;
 	    		}
 	    		//合并该世界的 被玩家掉落的物品和自然掉落的物品（鸡下的蛋，被水冲走的铁轨）
-	    		Collection<Entity> items=w.getEntities();
+	    		//Collection<Entity> items=w.getEntities();
 	    		
 		    }
 		}
