@@ -41,7 +41,7 @@ public class ChunkEvent {
 	    	.stream()
 	    	.filter(e -> e.getType().equals(EntityTypes.ITEM))//留下类型是掉落物的实体
 	    	.filter(e -> ItemUtil.isTrackingItem(e.getUniqueId()))//留下正在追踪中的掉落物
-    	.collect(Collectors.toList());
+	    	.collect(Collectors.toList());
 
     	//检测区块内物品是否有拥有者
     	if(drops.isEmpty()) {
@@ -52,25 +52,10 @@ public class ChunkEvent {
     		UUID pUUid=ItemUtil.getOnTrackingItem().get(e.getUniqueId()).getPlayerUUID();
     		if(ItemUtil.getChunkTrackingPlayers().contains(pUUid)) {
     			ItemUtil.singlePickupAction(e, pUUid);
-				/*
-    			//调度器一定tick后捡拾物品
-    			Task.builder()
-				.execute(() ->{
-	    			
-				})
-				.delayTicks(20)
-				.name("GetDrops-taskPickupItem")
-				.submit(GetDropsPlugin.get());
-    			*/
 		    	//捡拾后无论成功与否都卸载区块，因为该区块是由捡拾而加载的
 				//设定被加载的区块200tick后卸载
 				Task.builder()
 					.execute(() ->{
-						/*
-				    	Optional<LoadingTicket> ticket= GetDropsPlugin.getTicketManager()
-				    			.createTicket(GetDropsPlugin.get(), targetChunk.getWorld());
-						ticket.get().unforceChunk(targetChunk.getPosition());
-						*/
 						targetChunk.unloadChunk();
 					})
 					.delayTicks(200)

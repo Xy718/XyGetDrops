@@ -55,21 +55,23 @@ public class AllItemDestructEvent {
     	//TODO 是否启用了掉落物守护模式
     	
     	//TODO 是否在保护名单中
-    	Entity saveItem=getACopyItemEntity(targetItem);
     	if(ItemUtil.getOnTrackingItem().containsKey(targetItem.getUniqueId())) {
     	//是被追踪的物品
     		if(event.getCause().containsType(PluginContainer.class)) {
-    		//该清理行为由插件发起
-        		if(!ItemUtil.getOnTrackingItem().get(targetItem.getUniqueId()).isExpired(60)) {
-        		//保护未过期
-        			Task.builder()
-        				.delayTicks(1)
-        				.execute(()->{
-        					saveItem.getWorld().spawnEntity(saveItem);
-        				})
-        				.submit(GetDropsPlugin.get());
-        			return;
-        		}
+    		//该清理行为由非XyGetDrops插件发起
+    			if(!event.getCause().allOf(PluginContainer.class).get(0).getId().equals("xygetdrops")) {
+    				if(!ItemUtil.getOnTrackingItem().get(targetItem.getUniqueId()).isExpired(60)) {
+    	        		//保护未过期
+    	        	    	Entity saveItem=getACopyItemEntity(targetItem);
+    	        			Task.builder()
+    	        				.delayTicks(1)
+    	        				.execute(()->{
+    	        					saveItem.getWorld().spawnEntity(saveItem);
+    	        				})
+    	        				.submit(GetDropsPlugin.get());
+    	        			return;
+    	        		}
+    			}
     		}
     	}
     	
