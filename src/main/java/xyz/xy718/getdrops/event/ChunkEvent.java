@@ -49,7 +49,7 @@ public class ChunkEvent {
     	}
     	for(Entity e:drops) {
         	//检测其拥有者在不在区块追踪列表中来判断   是否是由捡拾而造成的区块加载
-    		UUID pUUid=ItemUtil.getOnTrackingItem().get(e.getUniqueId());
+    		UUID pUUid=ItemUtil.getOnTrackingItem().get(e.getUniqueId()).getPlayerUUID();
     		if(ItemUtil.getChunkTrackingPlayers().contains(pUUid)) {
     			ItemUtil.singlePickupAction(e, pUUid);
 				/*

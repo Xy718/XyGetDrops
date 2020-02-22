@@ -27,7 +27,7 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 import xyz.xy718.getdrops.command.GetDropsCommandRegister;
 import xyz.xy718.getdrops.config.GetDropsConfig;
 import xyz.xy718.getdrops.event.AllDropEvent;
-import xyz.xy718.getdrops.event.AllPickupEvent;
+import xyz.xy718.getdrops.event.AllItemDestructEvent;
 import xyz.xy718.getdrops.event.ChunkEvent;
 @Plugin(id = GetDropsPlugin.PLUGIN_ID
 , name = GetDropsPlugin.NAME
@@ -91,7 +91,7 @@ public class GetDropsPlugin {
     	LOGGER.info("配置加载完成,GetDrops开始注册事件与指令~");
     	GetDropsCommandRegister.regCommand(this);
     	Sponge.getEventManager().registerListeners(this,new AllDropEvent());
-    	Sponge.getEventManager().registerListeners(this,new AllPickupEvent());
+    	Sponge.getEventManager().registerListeners(this,new AllItemDestructEvent());
     	Sponge.getEventManager().registerListeners(this,new ChunkEvent());
 	}
     @Listener

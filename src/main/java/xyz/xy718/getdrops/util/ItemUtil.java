@@ -46,7 +46,7 @@ public class ItemUtil {
 	@Getter
 	private static Map<UUID, Map<UUID,TrackData>> playerDropsMap=new HashMap<>();
 	@Getter
-	private static Map<UUID, UUID> onTrackingItem=new HashMap<>();
+	private static Map<UUID, TrackData> onTrackingItem=new HashMap<>();
     /**
      * 将某个掉落物放入玩家的追踪列表
      * @param data
@@ -59,7 +59,7 @@ public class ItemUtil {
 			playerDropsMap.put(data.getPlayerUUID(),temp);
 		}
 		playerDropsMap.get(data.getPlayerUUID()).put(data.getLivingId(), data);
-		onTrackingItem.put(data.getLivingId(), data.getPlayerUUID());
+		onTrackingItem.put(data.getLivingId(), data);
 	}
     /**
      * 将某些掉落物放入玩家的追踪列表
