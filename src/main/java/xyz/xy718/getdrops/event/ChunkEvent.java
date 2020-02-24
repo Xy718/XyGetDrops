@@ -1,7 +1,6 @@
 package xyz.xy718.getdrops.event;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -10,12 +9,10 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.world.GenerateChunkEvent;
 import org.spongepowered.api.event.world.chunk.LoadChunkEvent;
 import org.spongepowered.api.event.world.chunk.UnloadChunkEvent;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.world.Chunk;
-import org.spongepowered.api.world.ChunkTicketManager.LoadingTicket;
 
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.util.ItemUtil;
@@ -29,12 +26,9 @@ public class ChunkEvent {
     		LoadChunkEvent event
     		) {
     	Chunk targetChunk=event.getTargetChunk();
-    	if(targetChunk.getEntities().size()>0){
-        	LOGGER.debug("区块加载:"+targetChunk.getPosition());
-        	LOGGER.debug("实体数量:"+targetChunk.getEntities().size());
-    	}
     	//是否有实体
-    	if(targetChunk.getEntities().size()<=0) {
+    	if(targetChunk.getEntities().isEmpty()) {
+    		//没有
     		return;
     	}
     	List<Entity> drops=targetChunk.getEntities()
@@ -47,9 +41,11 @@ public class ChunkEvent {
     	if(drops.isEmpty()) {
     		return;
     	}
+    	//TODO 这一块或许会有BUG哈哈
     	for(Entity e:drops) {
         	//检测其拥有者在不在区块追踪列表中来判断   是否是由捡拾而造成的区块加载
     		UUID pUUid=ItemUtil.getOnTrackingItem().get(e.getUniqueId()).getPlayerUUID();
+    		//playerUUID or NULL
     		if(ItemUtil.getChunkTrackingPlayers().contains(pUUid)) {
     			ItemUtil.singlePickupAction(e, pUUid);
 		    	//捡拾后无论成功与否都卸载区块，因为该区块是由捡拾而加载的
@@ -59,7 +55,7 @@ public class ChunkEvent {
 						targetChunk.unloadChunk();
 					})
 					.delayTicks(200)
-					.name("GetDrops-unLoadChunk")
+					.name("XyGetDrops-unLoadChunk")
 					.submit(GetDropsPlugin.get());
     		}
     	}
@@ -70,6 +66,7 @@ public class ChunkEvent {
     public void chunkUnLoad(
     		UnloadChunkEvent event
     		) {
+    	//没啥太大作用 ❥(^_-)
     	LOGGER.debug("区块卸载====:"+event.getTargetChunk().getPosition());
     }
 }

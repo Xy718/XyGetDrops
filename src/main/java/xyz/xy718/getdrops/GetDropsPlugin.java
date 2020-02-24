@@ -32,11 +32,12 @@ import xyz.xy718.getdrops.event.ChunkEvent;
 @Plugin(id = GetDropsPlugin.PLUGIN_ID
 , name = GetDropsPlugin.NAME
 , version = GetDropsPlugin.VERSION
-, description = "一个简单的掉落物管理插件")
+, description = GetDropsPlugin.DESCRIPTION)
 public class GetDropsPlugin {
-	@Getter public static final String PLUGIN_ID = "xygetdrops";
-	@Getter public static final String NAME = "XyGetDrops Plugin";
+	@Getter public static final String PLUGIN_ID = "@id@";
+	@Getter public static final String NAME = "@name@";
 	@Getter public static final String VERSION = "@version@";
+	@Getter public static final String DESCRIPTION = "@description@";
     
 	private static GetDropsPlugin instance;
 	

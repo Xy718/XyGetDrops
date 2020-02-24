@@ -1,7 +1,5 @@
 package xyz.xy718.getdrops.command.excutor;
 
-import java.util.Map.Entry;
-import java.util.UUID;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -12,18 +10,11 @@ import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.source.ProxySource;
 import org.spongepowered.api.command.source.RemoteSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColor;
-import org.spongepowered.api.text.format.TextColors;
 
 import xyz.xy718.getdrops.I18N;
-import xyz.xy718.getdrops.data.model.TrackData;
-import xyz.xy718.getdrops.event.AllDropEvent;
 import xyz.xy718.getdrops.util.ItemUtil;
-import xyz.xy718.getdrops.util.MessageText;
-import xyz.xy718.getdrops.util.MessageUtil;
 
 public class ListCommandExcutor implements CommandExecutor{
 

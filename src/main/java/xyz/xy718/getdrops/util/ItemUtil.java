@@ -1,7 +1,5 @@
 package xyz.xy718.getdrops.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,13 +18,10 @@ import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.item.inventory.entity.PlayerInventory;
 import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
-import lombok.Data;
 import lombok.Getter;
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.I18N;

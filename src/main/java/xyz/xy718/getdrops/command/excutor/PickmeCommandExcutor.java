@@ -17,8 +17,6 @@ import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.I18N;
 import xyz.xy718.getdrops.data.model.TrackData;
 import xyz.xy718.getdrops.util.ItemUtil;
-import xyz.xy718.getdrops.util.MessageText;
-import xyz.xy718.getdrops.util.MessageUtil;
 
 public class PickmeCommandExcutor implements CommandExecutor {
 
