@@ -74,7 +74,7 @@ public class GetDropsPlugin {
             }
         }
     	mainConfig=new GetDropsConfig(instance,getdropsConfigPath);
-    	LOGGER.info("XyGetDrops当前版本:"+mainConfig.getNode("VERSION").getString("nope"));
+    	LOGGER.info("XyGetDrops当前版本:"+VERSION);
     	
     	 // init i18n service
         I18N.setLogger(LOGGER);

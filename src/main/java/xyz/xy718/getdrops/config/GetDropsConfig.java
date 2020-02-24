@@ -98,7 +98,7 @@ public class GetDropsConfig {
     }
     private void upgradeConf() {
     	LOGGER.info("更新配置文件（假的）");
-        // merge config.conf from newer jar/assets.
+        //TODO 从新插件更新新版配置文件
     }
 
     public CommentedConfigurationNode getNode(@Nonnull final Object... keys) {
