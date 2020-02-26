@@ -14,6 +14,8 @@ version = pluginVersion
 
 blossom {
     replaceToken '@version@', pluginVersion
+    replaceToken '@name@', pluginName
+    replaceToken '@description@', pluginDescription
 }
 
 repositories {

@@ -29,19 +29,21 @@ import xyz.xy718.getdrops.config.GetDropsConfig;
 import xyz.xy718.getdrops.event.AllDropEvent;
 import xyz.xy718.getdrops.event.AllItemDestructEvent;
 import xyz.xy718.getdrops.event.ChunkEvent;
-@Plugin(id = GetDropsPlugin.PLUGIN_ID
+@Plugin(
+id = GetDropsPlugin.PLUGIN_ID
 , name = GetDropsPlugin.NAME
 , version = GetDropsPlugin.VERSION
-, description = GetDropsPlugin.DESCRIPTION)
+, description = GetDropsPlugin.DESCRIPTION
+)
 public class GetDropsPlugin {
-	@Getter public static final String PLUGIN_ID = "@id@";
+	@Getter public static final String PLUGIN_ID = "xygetdrops";
 	@Getter public static final String NAME = "@name@";
 	@Getter public static final String VERSION = "@version@";
 	@Getter public static final String DESCRIPTION = "@description@";
     
 	private static GetDropsPlugin instance;
 	
-	public static final Logger LOGGER = LoggerFactory.getLogger("XyGetDropsPlugin");
+	public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
 	
 	@Inject
 	private PluginContainer container;
@@ -54,7 +56,7 @@ public class GetDropsPlugin {
 	private ConfigurationLoader<CommentedConfigurationNode> configLoader;
 
 	private static GetDropsConfig mainConfig;
-	
+
     public GetDropsPlugin() {
     	if (instance != null)
 			throw new IllegalStateException();
@@ -74,7 +76,7 @@ public class GetDropsPlugin {
             }
         }
     	mainConfig=new GetDropsConfig(instance,getdropsConfigPath);
-    	LOGGER.info("XyGetDrops当前版本:"+VERSION);
+    	LOGGER.info("{}当前版本{}",NAME,VERSION);
     	
     	 // init i18n service
         I18N.setLogger(LOGGER);
@@ -89,7 +91,7 @@ public class GetDropsPlugin {
 
     @Listener
     public void onGameStarting(GameInitializationEvent event) {
-    	LOGGER.info("配置加载完成,GetDrops开始注册事件与指令~");
+    	LOGGER.info("配置加载完成,{}开始注册事件与指令~",NAME);
     	GetDropsCommandRegister.regCommand(this);
     	Sponge.getEventManager().registerListeners(this,new AllDropEvent());
     	Sponge.getEventManager().registerListeners(this,new AllItemDestructEvent());
@@ -97,12 +99,12 @@ public class GetDropsPlugin {
 	}
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
-    	LOGGER.info("服务器启动成功，XyGetDrops也开始工作了~");
+    	LOGGER.info("服务器启动成功，{}也开始工作了~",NAME);
     }
     
     @Listener
     public void onPluginsReload(GameReloadEvent event) {
-    	LOGGER.warn("XyGetDrops重新加载~");
+    	LOGGER.warn("{}重新加载~",NAME);
     }
 	public static GetDropsPlugin get() {
 		if (instance == null)

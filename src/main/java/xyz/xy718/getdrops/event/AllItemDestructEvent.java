@@ -24,12 +24,12 @@ public class AllItemDestructEvent {
      * @param event
      */
     @Listener(order = Order.EARLY,beforeModifications = true)
-    public void onItemPickup(
+    public void onItemDestruct(
     		DestructEntityEvent event
     		) { 
     	Entity targetItem=event.getTargetEntity();
     	//如果是个掉落物
-    	if(!targetItem.getType().equals(EntityTypes.ITEM)) {
+    	if(targetItem.getType().equals(EntityTypes.ITEM)) {
     		//启用了掉落物守护模式
         	if(GetDropsPlugin.getConfig().isItemProtection()) {
         		//是被追踪的物品
@@ -39,7 +39,7 @@ public class AllItemDestructEvent {
                 		//是插件发起的
                 		if(event.getCause().containsType(PluginContainer.class)) {
                 			//该清理行为由非XyGetDrops插件发起
-                			if(!event.getCause().allOf(PluginContainer.class).get(0).getId().equals("xygetdrops")) {
+                			if(!event.getCause().allOf(PluginContainer.class).get(0).getId().equals(GetDropsPlugin.PLUGIN_ID)) {
                 				//保护未过期
                 				if(!ItemUtil.getOnTrackingItem().get(targetItem.getUniqueId()).isExpired(GetDropsPlugin.getConfig().getProtectTime())) {
             	        	    	Entity saveItem=getACopyItemEntity(targetItem);
@@ -58,8 +58,8 @@ public class AllItemDestructEvent {
             	}
         	}
     	}
-    	//如果都跳过了
-    	ItemUtil.untracking(targetItem);
+        //如果都跳过了
+        ItemUtil.untracking(targetItem);
     }
     /**
      * 获取一个不会被remove的物品掉落物

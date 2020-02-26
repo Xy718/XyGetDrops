@@ -25,7 +25,7 @@ public class GetDropsConfig {
 
 	private ConfigurationLoader<CommentedConfigurationNode> configLoader;
 	private static Logger LOGGER=GetDropsPlugin.LOGGER;
-	
+	// formmater:off
 	/** 主节点 */
 	private CommentedConfigurationNode mainNode = null;
 	/** 追踪击杀是否启用 */
@@ -49,8 +49,10 @@ public class GetDropsConfig {
 	
 	@Getter private int protectTime;
 	@Getter private boolean defaultProtectMode;
-	private Map<Object, ? extends CommentedConfigurationNode> itemProtectMap=null;
 	
+	private Map<Object, ? extends CommentedConfigurationNode> itemProtectMap=null;
+
+	// formmater:on
 	public GetDropsConfig(GetDropsPlugin gdp, Path configDir) {
         Path path = configDir.resolve(mainConfName);
         this.configLoader = HoconConfigurationLoader.builder().setPath(path).build();
@@ -76,9 +78,15 @@ public class GetDropsConfig {
         try {
         	//主节点(总配置)
             this.mainNode = this.configLoader.load();
+            this.trackKill =this.mainNode.getNode("modules").getNode("track-killing").getBoolean(false);
+            this.trackBreak =this.mainNode.getNode("modules").getNode("track-breaking").getBoolean(false);
+            this.trackWorld =this.mainNode.getNode("modules").getNode("track-world").getBoolean(false);
+            this.itemProtection =this.mainNode.getNode("modules").getNode("item-protection").getBoolean(false);
+            
             
             this.defaultKillMode=this.mainNode.getNode("track-killing").getNode("track_default-mode").getBoolean(false);
             this.defaultBreakMode=this.mainNode.getNode("track-breaking").getNode("track-default-mode").getBoolean(false);
+            
             
             this.breakTrackList=this.mainNode.getNode("track-breaking").getNode("list").getChildrenMap();
             this.killTrackList=this.mainNode.getNode("track-killing").getNode("list").getChildrenMap();
@@ -166,6 +174,6 @@ public class GetDropsConfig {
     		return defaultProtectMode;
     	}else {
     		return node.getBoolean(false);
-    	}
-    }
+		}
+	}
 }

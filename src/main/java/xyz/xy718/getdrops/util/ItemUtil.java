@@ -73,14 +73,12 @@ public class ItemUtil {
      * @param data Entity(EntityItem)
      */
     public static void untracking(Entity data) {
-    	try {
-    		onTrackingItem.remove(data.getUniqueId());
-        	playerDropsMap
-        	.get(data.getCreator().get())
-        	.remove(data.getUniqueId());
-		} catch (NullPointerException e) {
-			LOGGER.debug("该物品已不存在，无法移除");
-		}
+    		TrackData beUntrackData=onTrackingItem.get(data.getUniqueId());
+    		if(beUntrackData!=null) {
+    			playerDropsMap.get(beUntrackData.getPlayerUUID())
+    				.remove(beUntrackData.getLivingId());
+    			onTrackingItem.remove(data.getUniqueId());
+    		}
 	}
     public static void destructDropItem(Entity entity) {
     	entity.getWorld().getEntity(entity.getUniqueId()).get().remove();
