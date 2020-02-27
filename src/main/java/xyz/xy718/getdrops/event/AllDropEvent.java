@@ -35,7 +35,7 @@ public class AllDropEvent {
     		) {
     	LOGGER.debug("onItemDroping");
     	//首先判断是否在该世界启用
-    	if(!config.getWorldIsModuled(event.getEntities().get(0).getWorld())) {
+    	if(!config.getWorldIsModuled(player.getWorld())) {
     		//没有启用
     		return;
     	}
