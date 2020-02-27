@@ -4,13 +4,18 @@ plugins {
 	id "net.kyori.blossom" version "1.1.0"
 	id "signing"
 }
-
+String command2 = "git rev-list --count --first-parent HEAD"
+String v2=command2.execute().text.trim()
+class buildNumber {
+    def command = "git rev-list --count --first-parent HEAD"
+    int v = command.execute().text.trim().toInteger() - 1
+}
 // This may not be required, but has solved issues in the past
 compileJava.options.encoding = 'UTF-8'
 
 
 group = pluginGroup
-version = pluginVersion
+version = pluginVersion+"-b"+Integer.parseInt(v2)
 
 blossom {
     replaceToken '@version@', pluginVersion
