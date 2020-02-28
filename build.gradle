@@ -2,11 +2,13 @@ plugins {
     id 'java'
     id 'org.spongepowered.plugin' version '0.9.0'
 	id "net.kyori.blossom" version "1.1.0"
-	id "signing"
 }
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 String command2 = "git rev-list --count --first-parent HEAD"
 String v2=command2.execute().text.trim()
-// This may not be required, but has solved issues in the past
+
 compileJava.options.encoding = 'UTF-8'
 
 
@@ -18,6 +20,7 @@ version = pluginVersion+"-b"+Integer.parseInt(v2)
 version = pluginVersion+"-test"
 }
 
+
 blossom {
     replaceToken '@version@', pluginVersion
     replaceToken '@name@', pluginName
@@ -25,15 +28,12 @@ blossom {
 }
 
 repositories {
-    mavenCentral()
-    maven {
-        name = "sponge"
-        url = "https://repo.spongepowered.org/maven"
-    }
+    jcenter()
 }
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:7.1.0'
+    compileOnly 'org.spongepowered:spongeapi:7.1.0'
+    annotationProcessor 'org.spongepowered:spongeapi:7.1.0'
 	compileOnly 'org.projectlombok:lombok:1.18.6'
 	annotationProcessor 'org.projectlombok:lombok:1.18.6'
 }
