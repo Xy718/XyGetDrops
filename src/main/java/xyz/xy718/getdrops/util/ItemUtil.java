@@ -2,6 +2,7 @@ package xyz.xy718.getdrops.util;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,7 +17,6 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.entity.PlayerInventory;
@@ -26,7 +26,6 @@ import org.spongepowered.api.world.World;
 import lombok.Getter;
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.I18N;
-import xyz.xy718.getdrops.data.model.Permissions;
 import xyz.xy718.getdrops.data.model.TrackData;
 
 /**
@@ -41,7 +40,7 @@ public class ItemUtil {
 	@Getter
     private static HashSet<UUID> chunkTrackingPlayers=new HashSet<UUID>();
 	@Getter
-	private static Map<UUID, Map<UUID,TrackData>> playerDropsMap=new HashMap<>();
+	private static Map<UUID, LinkedHashMap<UUID,TrackData>> playerDropsMap=new HashMap<>();
 	@Getter
 	private static Map<UUID, TrackData> onTrackingItem=new HashMap<>();
     /**
@@ -53,7 +52,7 @@ public class ItemUtil {
 		// 将追踪物品放入追踪列表中
 		if(playerDropsMap.get(data.getPlayerUUID())==null) {
 			//玩家不存在服务列表中
-			Map<UUID, TrackData> temp=new HashMap<>(0);
+			LinkedHashMap<UUID, TrackData> temp=new LinkedHashMap<>(0);
 			playerDropsMap.put(data.getPlayerUUID(),temp);
 		}
 		Optional<Player> tempP=Sponge.getServer().getPlayer(data.getPlayerUUID());
@@ -149,12 +148,7 @@ public class ItemUtil {
 		if (player==null) {
 			return null;
 		}
-		if(playerDropsMap.get(player.getUniqueId())==null) {
-			//玩家不存在服务列表中
-			Map<UUID, TrackData> temp=new HashMap<>(0);
-			playerDropsMap.put(player.getUniqueId(),temp);
-		}
-		return playerDropsMap.get(player.getUniqueId());
+		return getPlayerDropsMap(player.getUniqueId());
 	}
     /**
      * 获取服务器当前的追踪列表
@@ -167,7 +161,7 @@ public class ItemUtil {
 		}
 		if(playerDropsMap.get(playerUUID)==null) {
 			//玩家不存在服务列表中
-			Map<UUID, TrackData> temp=new HashMap<>(0);
+			LinkedHashMap<UUID, TrackData> temp=new LinkedHashMap<>(0);
 			playerDropsMap.put(playerUUID,temp);
 		}
 		return playerDropsMap.get(playerUUID);
@@ -178,7 +172,7 @@ public class ItemUtil {
 	 */
 	public static int getTrackingCount() {
 		int c=0;
-		for(Entry<UUID, Map<UUID, TrackData>> player:playerDropsMap.entrySet()) {
+		for(Entry<UUID, LinkedHashMap<UUID, TrackData>> player:playerDropsMap.entrySet()) {
 			c+=player.getValue().size();
 		}
 		return c;
@@ -287,7 +281,7 @@ public class ItemUtil {
 	
 	public static Set<UUID> getTrackingItemsByWorld(UUID worldUUID) {
 		Set<UUID> retList=new HashSet<>();
-		for(Entry<UUID, Map<UUID, TrackData>> entry:playerDropsMap.entrySet()) {
+		for(Entry<UUID, LinkedHashMap<UUID, TrackData>> entry:playerDropsMap.entrySet()) {
 			for(Entry<UUID, TrackData> entry2:entry.getValue().entrySet()) {
 				if(entry2.getValue().getWorldUUID().equals(worldUUID)) {
 					retList.add(entry2.getValue().getLivingId());
