@@ -36,7 +36,7 @@ id = GetDropsPlugin.PLUGIN_ID
 , description = GetDropsPlugin.DESCRIPTION
 )
 public class GetDropsPlugin {
-	@Getter public static final String PLUGIN_ID = "xygetdrops";
+	@Getter public static final String PLUGIN_ID = "@id@";
 	@Getter public static final String NAME = "@name@";
 	@Getter public static final String VERSION = "@version@";
 	@Getter public static final String DESCRIPTION = "@description@";

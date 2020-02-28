@@ -4,27 +4,27 @@ plugins {
 	id "net.kyori.blossom" version "1.1.0"
 }
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+compileJava.options.encoding = 'UTF-8'
+//获取commits数量
 String command2 = "git rev-list --count --first-parent HEAD"
 String v2=command2.execute().text.trim()
 
-compileJava.options.encoding = 'UTF-8'
-
-
 group = pluginGroup
-version=""
-try{
-version = pluginVersion+"-b"+Integer.parseInt(v2)
-}catch(Exception e){
-version = pluginVersion+"-test"
-}
 
+//给metadata生成version
+try{
+	pluginVersion = pluginVersion+"b"+Integer.parseInt(v2)
+}catch(Exception e){
+	pluginVersion = pluginVersion+"Test"
+}
+//包名的version部分
+version=pluginVersion
 
 blossom {
+    replaceToken '@id@', pluginId
     replaceToken '@version@', pluginVersion
     replaceToken '@name@', pluginName
-    replaceToken '@description@', pluginDescription
+    replaceToken '@description@', "一个简单的掉落物管理插件"
 }
 
 repositories {
