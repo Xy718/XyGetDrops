@@ -12,6 +12,7 @@ import org.spongepowered.api.event.item.inventory.DropItemEvent;
 
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.config.GetDropsConfig;
+import xyz.xy718.getdrops.data.model.Permissions;
 import xyz.xy718.getdrops.util.ItemUtil;
 
 /**
@@ -22,7 +23,7 @@ import xyz.xy718.getdrops.util.ItemUtil;
  * <br>
  * 
  */
-public class AllDropEvent {
+public class ItemDropEvent {
 
     
     private Logger LOGGER = GetDropsPlugin.LOGGER;
@@ -34,12 +35,19 @@ public class AllDropEvent {
     		,@First Player player
     		) {
     	LOGGER.debug("onItemDroping");
-    	//首先判断是否在该世界启用
+    	//判断物品是否存在
+    	if(event.getEntities().isEmpty()) {
+    		return;
+    	}
+    	//判断是否在该世界启用
     	if(!config.getWorldIsModuled(player.getWorld())) {
     		//没有启用
     		return;
     	}
-    	
+    	//判断用户是否有权限来追踪物品
+    	if(!player.hasPermission(Permissions.GetDropsTrackPMS)) {
+    		return;
+    	}
     	if(event.getSource() instanceof BlockSnapshot) {
     		//挖掘破坏行为
     		//是否启用了break追踪&该方块是否追踪

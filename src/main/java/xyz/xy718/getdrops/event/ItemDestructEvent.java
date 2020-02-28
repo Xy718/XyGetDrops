@@ -15,7 +15,7 @@ import org.spongepowered.api.scheduler.Task;
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.util.ItemUtil;
 
-public class AllItemDestructEvent {
+public class ItemDestructEvent {
 
     private Logger LOGGER = GetDropsPlugin.LOGGER;
     

@@ -11,7 +11,12 @@ compileJava.options.encoding = 'UTF-8'
 
 
 group = pluginGroup
+version=""
+try{
 version = pluginVersion+"-b"+Integer.parseInt(v2)
+}catch(Exception e){
+version = pluginVersion+"-test"
+}
 
 blossom {
     replaceToken '@version@', pluginVersion

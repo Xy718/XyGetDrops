@@ -9,6 +9,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.command.spec.CommandSpec.Builder;
 import org.spongepowered.api.text.Text;
 
+import xyz.xy718.getdrops.data.model.Permissions;
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.command.excutor.ListCommandExcutor;
 import xyz.xy718.getdrops.command.excutor.PickmeCommandExcutor;
@@ -16,8 +17,8 @@ import xyz.xy718.getdrops.command.excutor.PickmeCommandExcutor;
 public class GetDropsCommandRegister {
 	
 	private enum CommandList{
-		GetDropsListme("getdrops.user.list.me",new ListCommandExcutor(),Text.of("获取自己的的掉落物列表"),"list","l"),
-		GetDropsPickme("getdrops.user.pickme.base",new PickmeCommandExcutor(),Text.of("获取自己的掉落物"), "pick","p"),
+		GetDropsListme(Permissions.GetDropsListmePMS,new ListCommandExcutor(),Text.of("获取自己的的掉落物列表"),"list","l"),
+		GetDropsPickme(Permissions.GetDropsPickmePMS,new PickmeCommandExcutor(),Text.of("获取自己的掉落物"), "pick","p"),
 
 		;
 		private String permission;
