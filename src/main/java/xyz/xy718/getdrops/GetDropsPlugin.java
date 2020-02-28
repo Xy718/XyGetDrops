@@ -40,7 +40,7 @@ public class GetDropsPlugin {
 	@Getter public static final String NAME = "@name@";
 	@Getter public static final String VERSION = "@version@";
 	@Getter public static final String DESCRIPTION = "@description@";
-    
+	
 	private static GetDropsPlugin instance;
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
@@ -87,6 +87,7 @@ public class GetDropsPlugin {
         }
         Locale locale = LocaleUtils.toLocale(localeStr);
         I18N.setLocale(locale);
+        
     }
 
     @Listener

@@ -28,6 +28,9 @@ public class GetDropsConfig {
 	// formmater:off
 	/** 主节点 */
 	private CommentedConfigurationNode mainNode = null;
+	/** 追踪上限*/
+	@Getter private int workCount;
+	
 	/** 追踪击杀是否启用 */
 	@Getter private boolean trackKill;
 	/** 追踪破坏是否启用 */
@@ -78,6 +81,8 @@ public class GetDropsConfig {
         try {
         	//主节点(总配置)
             this.mainNode = this.configLoader.load();
+            this.workCount = this.mainNode.getNode("general").getNode("work-count").getInt(0);
+            
             this.trackKill =this.mainNode.getNode("modules").getNode("track-killing").getBoolean(false);
             this.trackBreak =this.mainNode.getNode("modules").getNode("track-breaking").getBoolean(false);
             this.trackWorld =this.mainNode.getNode("modules").getNode("track-world").getBoolean(false);
@@ -123,7 +128,7 @@ public class GetDropsConfig {
     		return false;
     	}
     	if(!this.trackWorld) {
-    		return false;
+    		return true;
     	}
     	if(this.trackingWorldList.contains(world.getName())){
     		return true;

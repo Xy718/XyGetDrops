@@ -1,5 +1,7 @@
 package xyz.xy718.getdrops.event;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.Entity;
@@ -14,6 +16,7 @@ import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.config.GetDropsConfig;
 import xyz.xy718.getdrops.data.model.Permissions;
 import xyz.xy718.getdrops.util.ItemUtil;
+import xyz.xy718.getdrops.util.PlayerUtil;
 
 /**
  * 有关掉落物的所有监听
@@ -26,7 +29,7 @@ import xyz.xy718.getdrops.util.ItemUtil;
 public class ItemDropEvent {
 
     
-    private Logger LOGGER = GetDropsPlugin.LOGGER;
+    private static Logger LOGGER = GetDropsPlugin.LOGGER;
     private static GetDropsConfig config=GetDropsPlugin.getConfig();
     
     @Listener
@@ -47,6 +50,14 @@ public class ItemDropEvent {
     	//判断用户是否有权限来追踪物品
     	if(!player.hasPermission(Permissions.GetDropsTrackPMS)) {
     		return;
+    	}
+    	//判断用户的metadata是不是不大于0(剩下的判断移除之类的放在ItemUtil)
+    	//存在就判断
+    	Optional<Integer> temp= PlayerUtil.getPlayerTrackLimit(player);
+    	if(temp.isPresent()) {
+    		if(temp.get()<1) {
+    			return;
+    		}
     	}
     	if(event.getSource() instanceof BlockSnapshot) {
     		//挖掘破坏行为
@@ -75,5 +86,4 @@ public class ItemDropEvent {
 		}
 		
     }
-    
 }

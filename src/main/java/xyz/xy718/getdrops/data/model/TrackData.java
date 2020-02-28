@@ -3,6 +3,7 @@ package xyz.xy718.getdrops.data.model;
 import java.util.Date;
 import java.util.UUID;
 
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -18,6 +19,8 @@ public class TrackData {
 	private UUID worldUUID;
 	private Vector3i chunkPosition;
 	private Date dropTime;
+	private String itemID;
+	private int itemCount;
 
 	/**
 	 * 这里用playerUUID的原因是因为某些环境下获取不到Player，只有UUID
@@ -35,6 +38,8 @@ public class TrackData {
 		this.livingId = livingId;
 		this.playerUUID = playerUUID;
 		this.dropTime=new Date();
+		this.itemID=dropItem.get(Keys.REPRESENTED_ITEM).get().getType().getId();
+		this.itemCount=dropItem.get(Keys.REPRESENTED_ITEM).get().getQuantity();
 	}
 	public TrackData(Entity dropItem, UUID livingId, Player player) {
 		this(dropItem, livingId, player.getUniqueId());

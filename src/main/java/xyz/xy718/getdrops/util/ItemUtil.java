@@ -16,6 +16,7 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.entity.PlayerInventory;
@@ -25,6 +26,7 @@ import org.spongepowered.api.world.World;
 import lombok.Getter;
 import xyz.xy718.getdrops.GetDropsPlugin;
 import xyz.xy718.getdrops.I18N;
+import xyz.xy718.getdrops.data.model.Permissions;
 import xyz.xy718.getdrops.data.model.TrackData;
 
 /**
@@ -43,7 +45,8 @@ public class ItemUtil {
 	@Getter
 	private static Map<UUID, TrackData> onTrackingItem=new HashMap<>();
     /**
-     * 将某个掉落物放入玩家的追踪列表
+     * 将某个掉落物放入玩家的追踪列表<br>
+     * 如果超出了就先删除再增加
      * @param data
      */
     public static void tracking(TrackData data) {
@@ -53,9 +56,55 @@ public class ItemUtil {
 			Map<UUID, TrackData> temp=new HashMap<>(0);
 			playerDropsMap.put(data.getPlayerUUID(),temp);
 		}
+		Optional<Player> tempP=Sponge.getServer().getPlayer(data.getPlayerUUID());
+    	//判断是否有超出可保存上限的部分
+		if(tempP.isPresent()) {
+			Optional<Integer> tempMeta=PlayerUtil.getPlayerTrackLimit(tempP.get());
+			//如果metadata存在
+			if(tempMeta.isPresent()) {
+				//判断是否超出
+				if(tempMeta.get()<=playerDropsMap.get(data.getPlayerUUID()).size()) {
+					//超出了，就要删除第0个
+					delOutItem(tempP.get(),tempMeta.get());
+				}
+			}else {
+				//如果metadata没有
+				//且配置文件正常
+				if(GetDropsPlugin.getConfig().getWorkCount()>0){
+		    		//是否超出配置文件的配置上限
+		    		if(ItemUtil.getP_TrackedCount(tempP.get().getUniqueId()) >= GetDropsPlugin.getConfig().getWorkCount()) {
+		    			delOutItem(tempP.get(), GetDropsPlugin.getConfig().getWorkCount());
+		    		}
+		    	}
+			}
+		}
+		
+		//再增加
 		playerDropsMap.get(data.getPlayerUUID()).put(data.getLivingId(), data);
 		onTrackingItem.put(data.getLivingId(), data);
 	}
+    /**
+     * 获取玩家的追踪的掉落物数量
+     * @param uniqueId
+     * @return
+     */
+    public static int getP_TrackedCount(UUID uniqueId) {
+		return playerDropsMap.get(uniqueId).size();
+	}
+	/**
+	 * 从列表头删除直到少一个
+	 * @param p
+	 * @param limit
+	 */
+    private static void delOutItem(Player p,int limit) {
+    	for(Entry<UUID, TrackData> temp:playerDropsMap.get(p.getUniqueId()).entrySet()) {
+			MessageUtil.sendLimitToRemoveItem(p, temp.getValue().getItemID(),temp.getValue().getItemCount());
+			playerDropsMap.get(p.getUniqueId()).remove(temp.getKey());
+			if(playerDropsMap.get(p.getUniqueId()).size()<limit) {
+				break;//删除到直到比定义的小（保险起见）
+			}
+		}
+    }
     /**
      * 将某些掉落物放入玩家的追踪列表
      * @param data
@@ -191,7 +240,7 @@ public class ItemUtil {
 			
 			MessageUtil.send(
 					playerUUID
-					, I18N.getText("pick.success.item", new Object[] {entity.get(Keys.REPRESENTED_ITEM).get().getType().getId(),entity.get(Keys.REPRESENTED_ITEM).get().getQuantity()}));
+					, I18N.getText("pick.success.item",entity.get(Keys.REPRESENTED_ITEM).get().getType().getId(),entity.get(Keys.REPRESENTED_ITEM).get().getQuantity()));
 			
 			//如果玩家的待拾取列表清空了就UuChunkTracking
 			if(ItemUtil.getPlayerDropsMap(playerUUID).isEmpty()){
